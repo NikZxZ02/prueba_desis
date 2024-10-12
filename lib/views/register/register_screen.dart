@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prueba_desis/db/database.dart';
 import 'package:prueba_desis/models/user.dart';
 import 'package:prueba_desis/services/user_service.dart';
 import 'package:prueba_desis/views/register/widgets/data_table.dart';
 import 'package:prueba_desis/widgets/custom_button.dart';
 import 'package:prueba_desis/validators/form_validators.dart' as validators;
+import 'package:prueba_desis/widgets/message_status.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,9 +23,10 @@ class RegisterScreenState extends State<RegisterScreen> {
   String address = '';
   final _formKey = GlobalKey<FormState>();
   final _dateController = TextEditingController();
-  DateTime? _selectedDate;
   final userService = UserService();
   List<User> users = [];
+  DBSqlite database = DBSqlite();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -31,18 +34,38 @@ class RegisterScreenState extends State<RegisterScreen> {
     super.initState();
   }
 
-  void handleRegister() {
-    print("Paso");
+  void setIsLoading(bool loading) {
+    setState(() {
+      isLoading = loading;
+    });
   }
 
-  void loadUsers() {
-    print("Paso");
+  void handleRegister() async {
+    User user = User(
+      name: name,
+      email: email,
+      birthDate: _dateController.text,
+      address: address,
+      password: password,
+    );
+    database.insertUser(user);
+    MessagesStatus.successMessage(context, "Usuario registrado con exito");
+    await loadUsers();
+  }
+
+  Future<void> loadUsers() async {
+    final usersData = await database.getUsers();
+    setState(() {
+      users = usersData;
+    });
   }
 
   void handleGetUser() async {
+    setIsLoading(true);
     final user = await userService.fetchUser();
-    users.add(user!);
-    setState(() {}); //TODO: Guardar el dato en la bd
+    await database.insertUser(user!);
+    loadUsers();
+    setIsLoading(false);
   }
 
   @override
@@ -123,11 +146,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                 height: 15,
               ),
               CustomButton(
-                  onPress: () {
-                    handleGetUser();
-                  },
-                  label: "Obtener datos desde API",
-                  width: 250),
+                onPress: () {
+                  handleGetUser();
+                },
+                label: "Obtener datos desde API",
+                width: 250,
+                isLoading: isLoading,
+                isDisabled: isLoading,
+              ),
               DataTableWidget(users: users)
             ],
           ),
@@ -138,21 +164,15 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _onSelectedDate() async {
     DateTime? picked = await showDatePicker(
-        context: context,
-        locale: const Locale("es", "ES"),
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1950),
-        lastDate: DateTime(2025));
+      context: context,
+      locale: const Locale("es", "ES"),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2025),
+    );
 
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        _dateController.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
-    } else {
-      setState(() {
-        _dateController.text = "Fecha de nacimiento";
-      });
+    if (picked != null) {
+      _dateController.text = DateFormat('yyyy-MM-dd').format(picked);
     }
   }
 }

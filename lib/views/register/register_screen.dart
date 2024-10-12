@@ -8,6 +8,7 @@ import 'package:prueba_desis/widgets/custom_button.dart';
 import 'package:prueba_desis/validators/form_validators.dart' as validators;
 import 'package:prueba_desis/widgets/message_status.dart';
 
+// Vista que permite registrar un usuario a travez de un formulario y guardarlo en la base de datos
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -16,13 +17,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-  String name = '';
-  String email = '';
-  String password = '';
-  String birthday = '';
-  String address = '';
-  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _addressController = TextEditingController();
   final _dateController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   final userService = UserService();
   List<User> users = [];
   DBSqlite database = DBSqlite();
@@ -34,25 +35,33 @@ class RegisterScreenState extends State<RegisterScreen> {
     super.initState();
   }
 
+  //Función que permite cambiar el estado de la variable isLoading
   void setIsLoading(bool loading) {
     setState(() {
       isLoading = loading;
     });
   }
 
+  //Función que permite registrar un usuario segun los datos proporcionados en el formulario, este registro se guarda en la base de datos local realizada en SQLite
   void handleRegister() async {
     User user = User(
-      name: name,
-      email: email,
+      name: _nameController.text,
+      email: _emailController.text,
       birthDate: _dateController.text,
-      address: address,
-      password: password,
+      address: _addressController.text,
+      password: _passwordController.text,
     );
     database.insertUser(user);
     MessagesStatus.successMessage(context, "Usuario registrado con exito");
     await loadUsers();
+    _nameController.clear();
+    _emailController.clear();
+    _dateController.clear();
+    _addressController.clear();
+    _passwordController.clear();
   }
 
+  //Obtiene los usuarios guardados en la base de datos
   Future<void> loadUsers() async {
     final usersData = await database.getUsers();
     setState(() {
@@ -60,6 +69,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
+  //Se obtiene un usuario desde la API y lo agrega en la base de datos para luego mostrarlo en la tabla
   void handleGetUser() async {
     setIsLoading(true);
     final user = await userService.fetchUser();
@@ -85,35 +95,24 @@ class RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextFormField(
-                  onSaved: (value) {
-                    setState(() {
-                      name = value!;
-                    });
-                  },
+                  controller: _nameController,
                   decoration: const InputDecoration(
-                    labelText: 'Nombre',
+                    labelText: 'Nombre Completo',
+                    border: OutlineInputBorder(),
                   ),
                   validator: validators.nameValidator),
               TextFormField(
-                  onSaved: (value) {
-                    setState(() {
-                      email = value!;
-                    });
-                  },
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Correo Electrónico',
                   ),
                   validator: validators.emailValidator),
               TextFormField(
-                onSaved: (value) {
-                  setState(() {
-                    address = value!;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Dirección',
-                ),
-              ),
+                  controller: _addressController,
+                  decoration: const InputDecoration(
+                    labelText: 'Dirección',
+                  ),
+                  validator: validators.addressValidator),
               TextFormField(
                 controller: _dateController,
                 decoration: const InputDecoration(
@@ -124,11 +123,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                 validator: validators.birthdayValidator,
               ),
               TextFormField(
-                  onSaved: (value) {
-                    setState(() {
-                      password = value!;
-                    });
-                  },
+                  controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Contraseña',
                   ),

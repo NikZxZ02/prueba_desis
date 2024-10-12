@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MessagesStatus {
+  //Función que muestra un mensaje en el fondo de la pantalla
   static void successMessage(BuildContext context, String status) {
     final scaffold = ScaffoldMessenger.of(context);
 

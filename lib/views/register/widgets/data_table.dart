@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_desis/models/user.dart';
 
+// Widget que muestra una tabla de usuarios.
 class DataTableWidget extends StatefulWidget {
   const DataTableWidget({super.key, required this.users});
   final List<User> users;
@@ -10,6 +11,8 @@ class DataTableWidget extends StatefulWidget {
 }
 
 class _DataTableState extends State<DataTableWidget> {
+  int rowsPerPage = 5;
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -21,19 +24,27 @@ class _DataTableState extends State<DataTableWidget> {
         ),
       ),
       child: PaginatedDataTable(
-        rowsPerPage: 5,
+        availableRowsPerPage: const [5, 10, 15],
+        showCheckboxColumn: true,
+        rowsPerPage: rowsPerPage,
         arrowHeadColor: Colors.blue,
         columns: const [
           DataColumn(label: Text('Nombre')),
           DataColumn(label: Text('Correo')),
           DataColumn(label: Text('Fecha Nacimiento')),
         ],
+        onRowsPerPageChanged: (newRowsPerPage) {
+          setState(() {
+            rowsPerPage = newRowsPerPage!;
+          });
+        },
         source: _DataSource(widget.users),
       ),
     );
   }
 }
 
+// Fuente de datos para la tabla que permite manejar la paginación y el acceso a los datos de los usuarios guardados en la base de datos.
 class _DataSource extends DataTableSource {
   final List<User> _users;
 

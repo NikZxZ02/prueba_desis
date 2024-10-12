@@ -1,3 +1,4 @@
+// Clase que representa a la entidad usuario
 class User {
   final int? id;
   final String name;
@@ -15,8 +16,10 @@ class User {
     required this.password,
   });
 
+  // Crea una instancia de "User" a partir de json.
   factory User.fromJson(Map<String, dynamic> json) {
-    String fullName = '${json['name']['first']} ${json['name']['last']}';
+    String fullName =
+        '${json['name']['first']} ${json['name']['last']}'; // Se combinan los datos del json obtenidos de la API
     String jsonAddress = '${json['location']['country']}';
     String birthDate = json['dob']['date'];
 
@@ -30,6 +33,7 @@ class User {
     );
   }
 
+  // Convierte la instancia de un "User" a un json
   Map<String, dynamic> toJson() {
     return {
       'id': id,

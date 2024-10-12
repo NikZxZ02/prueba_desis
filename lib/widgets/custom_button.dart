@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Botón personalizado que permite reutilizarlo en diferentes partes del código
 class CustomButton extends StatelessWidget {
   final void Function() onPress;
   final String label;

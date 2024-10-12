@@ -1,6 +1,6 @@
 String? emailValidator(String? value) {
   if (value == null || value.trim().isEmpty) {
-    return 'Por favor ingrese el correo';
+    return 'El campo correo es obligatorio';
   }
   if (!value.contains('@') || !value.contains('.')) {
     return 'Por favor ingrese un correo válido';
@@ -13,7 +13,7 @@ String? emailValidator(String? value) {
 
 String? nameValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Por favor ingrese el nombre';
+    return 'El campo nombre es obligatorio';
   }
   if (value.length < 10) {
     return 'La contraseña debe tener al menos 10 caracteres';
@@ -21,12 +21,19 @@ String? nameValidator(String? value) {
   return null;
 }
 
+String? addressValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'El campo dirección es obligatorio';
+  }
+  return null;
+}
+
 String? birthdayValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Por favor ingrese la fecha de nacimiento';
+    return 'El campo fecha de nacimiento es obligatorio';
   }
   if (value == 'Fecha de nacimiento') {
-    return 'Por favor ingrese la fecha de nacimiento';
+    return 'El campo fecha de nacimiento es obligatorio';
   }
   if (!value.contains(RegExp(r'^\d{4}-\d{2}-\d{2}$'))) {
     return 'Ingrese una fecha válida en el formato YYYY-MM-DD';
@@ -36,7 +43,7 @@ String? birthdayValidator(String? value) {
 
 String? passwordValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Por favor ingrese la contraseña';
+    return 'El campo contraseña es obligatorio';
   }
   if (value.length < 6) {
     return 'La contraseña debe tener al menos 6 caracteres';

@@ -29,49 +29,26 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (icon == null) {
-      return ElevatedButton(
-        style: ButtonStyle(
-            elevation: MaterialStateProperty.all<double>(0.0),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                !isDisabled ? color : Colors.grey.withOpacity(0.8)),
-            fixedSize: MaterialStatePropertyAll(Size(width, height))),
-        onPressed: () => isDisabled || isLoading ? null : onPress(),
-        child: isLoading
-            ? const SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1.5,
-                  color: Colors.white,
-                ),
-              )
-            : Text(
-                label,
-                style:
-                    TextStyle(color: textColor, fontSize: textSize!.toDouble()),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          backgroundColor: !isDisabled ? color : Colors.grey.withOpacity(0.8)),
+      onPressed: () => isDisabled || isLoading ? null : onPress(),
+      child: isLoading
+          ? const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 1.5,
+                color: Colors.white,
               ),
-      );
-    }
-
-    return ElevatedButton.icon(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-              !isDisabled ? color : Colors.grey),
-          fixedSize: MaterialStatePropertyAll(
-            Size(width, height),
-          ),
-          alignment: alignment),
-      onPressed: () => isDisabled ? null : onPress(),
-      icon: Icon(
-        icon,
-        color: textColor,
-        size: 20,
-      ),
-      label: Text(
-        label,
-        style: TextStyle(color: textColor, fontSize: textSize!.toDouble()),
-      ),
+            )
+          : Text(
+              label,
+              style:
+                  TextStyle(color: textColor, fontSize: textSize!.toDouble()),
+            ),
     );
   }
 }

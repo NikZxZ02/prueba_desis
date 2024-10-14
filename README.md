@@ -1,16 +1,36 @@
-# prueba_desis
+# Prueba Desis
 
-A new Flutter project.
+Proyecto desarrollado en **Flutter** que permite el registro de usuarios mediante un formulario. La aplicación incluye funcionalidades como el almacenamiento de usuarios en una base de datos local SQLite, y la obtención de datos desde un API remoto.
 
-## Getting Started
+Se trabajo con las siguientes tecnologias
+* Flutter - Dart
+* SQLite
+* Android Studio
 
-This project is a starting point for a Flutter application.
+## Características
 
-A few resources to get you started if this is your first Flutter project:
+* Registro de usuarios a través de un formulario
+* Comunicación con una API externa para obtener un usuario aleatorio
+* Guardado de datos en base de datos local
+* Visualización de los datos en una tabla
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Instalación
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clonar el repositorio:
+   ```
+   git clone https://github.com/NikZxZ02/prueba_desis.git
+   ```
+2. Se instalan las dependencias
+   ```
+   flutter pub get
+   ```
+3. Ejecuta la aplicación
+   ```
+   flutter run
+   ```
+
+## Descarga
+
+La APK de la aplicación puede ser encontrada en la opción Release de este repositorio
+
+Desarrollado por **Nicolás Hidalgo**

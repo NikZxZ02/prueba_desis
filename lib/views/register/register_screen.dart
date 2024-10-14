@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prueba_desis/db/database.dart';
@@ -53,7 +55,8 @@ class RegisterScreenState extends State<RegisterScreen> {
       password: _passwordController.text,
     );
     database.insertUser(user);
-    MessagesStatus.successMessage(context, "Usuario registrado con exito");
+    MessagesStatus.showStatusMessage(
+        context, "Usuario registrado con exito", false);
     await loadUsers();
     _nameController.clear();
     _emailController.clear();
@@ -73,10 +76,23 @@ class RegisterScreenState extends State<RegisterScreen> {
   //Se obtiene un usuario desde la API y lo agrega en la base de datos para luego mostrarlo en la tabla
   void handleGetUser() async {
     setIsLoading(true);
-    final user = await userService.fetchUser();
-    await database.insertUser(user!);
-    loadUsers();
-    setIsLoading(false);
+    try {
+      final user = await userService.fetchUser();
+      await database.insertUser(user!);
+      loadUsers();
+      if (mounted) {
+        MessagesStatus.showStatusMessage(
+            context, "Usuario obtenido con exito", false);
+      }
+    } catch (error) {
+      log("Ocurrio un error al obtener el usuario");
+      if (mounted) {
+        MessagesStatus.showStatusMessage(
+            context, "El usuario no pudo ser obtenido", true);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   @override

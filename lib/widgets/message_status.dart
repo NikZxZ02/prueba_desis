@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class MessagesStatus {
   //Función que muestra un mensaje en el fondo de la pantalla
-  static void successMessage(BuildContext context, String status) {
+  static void showStatusMessage(
+      BuildContext context, String status, bool isError) {
     final scaffold = ScaffoldMessenger.of(context);
 
     scaffold.showSnackBar(
@@ -11,7 +12,7 @@ class MessagesStatus {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        backgroundColor: Colors.green[300],
+        backgroundColor: isError ? Colors.red[300] : Colors.green[300],
         content: Text(
           status,
           style: const TextStyle(color: Colors.white, fontSize: 15),

@@ -92,42 +92,93 @@ class RegisterScreenState extends State<RegisterScreen> {
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nombre Completo',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: validators.nameValidator),
-              TextFormField(
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                child: TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Nombre Completo',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    validator: (value) =>
+                        validators.nameValidator(context, value)),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                child: TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Correo Electrónico',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
                   ),
-                  validator: validators.emailValidator),
-              TextFormField(
-                  controller: _addressController,
-                  decoration: const InputDecoration(
-                    labelText: 'Dirección',
-                  ),
-                  validator: validators.addressValidator),
-              TextFormField(
-                controller: _dateController,
-                decoration: const InputDecoration(
-                  labelText: "Fecha de Nacimiento",
+                  validator: ((value) =>
+                      validators.emailValidator(value, context)),
                 ),
-                readOnly: true,
-                onTap: _onSelectedDate,
-                validator: validators.birthdayValidator,
               ),
-              TextFormField(
-                  controller: _passwordController,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                child: TextFormField(
+                    controller: _addressController,
+                    decoration: const InputDecoration(
+                      labelText: 'Dirección',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    validator: validators.addressValidator),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                child: TextFormField(
+                  controller: _dateController,
                   decoration: const InputDecoration(
-                    labelText: 'Contraseña',
+                    labelText: "Fecha de Nacimiento",
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
                   ),
-                  validator: validators.passwordValidator),
+                  readOnly: true,
+                  onTap: _onSelectedDate,
+                  validator: validators.birthdayValidator,
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                child: TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    ),
+                    validator: validators.passwordValidator),
+              ),
               CustomButton(
                   onPress: () {
                     _formKey.currentState!.save();
@@ -138,7 +189,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   label: "Registrar",
                   width: 150),
               const SizedBox(
-                height: 15,
+                height: 5,
               ),
               CustomButton(
                 onPress: () {

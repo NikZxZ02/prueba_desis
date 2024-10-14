@@ -1,5 +1,9 @@
-String? emailValidator(String? value) {
+import 'package:flutter/material.dart';
+import 'package:prueba_desis/widgets/message_status.dart';
+
+String? emailValidator(String? value, BuildContext context) {
   if (value == null || value.trim().isEmpty) {
+    MessagesStatus.showEmptyFieldError(context, "Correo");
     return 'El campo correo es obligatorio';
   }
   if (!value.contains('@') || !value.contains('.')) {
@@ -11,12 +15,13 @@ String? emailValidator(String? value) {
   return null;
 }
 
-String? nameValidator(String? value) {
+String? nameValidator(BuildContext context, String? value) {
   if (value == null || value.isEmpty) {
-    return 'El campo nombre es obligatorio';
+    MessagesStatus.showEmptyFieldError(context, "Nombre");
+    return null;
   }
   if (value.length < 10) {
-    return 'La contraseña debe tener al menos 10 caracteres';
+    return 'El nombre debe tener al menos 10 caracteres';
   }
   return null;
 }

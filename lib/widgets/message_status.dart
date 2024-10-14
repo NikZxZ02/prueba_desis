@@ -21,4 +21,26 @@ class MessagesStatus {
       ),
     );
   }
+
+  //Función que muestra un mensaje "Dialog" cuando un campo del formulario esta vacio
+  static void showEmptyFieldError(BuildContext context, String error) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Campo Obligatorio',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text('El campo $error es obligatorio'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

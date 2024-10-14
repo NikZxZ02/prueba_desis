@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:prueba_desis/db/database.dart';
 import 'package:prueba_desis/models/user.dart';
 import 'package:prueba_desis/services/user_service.dart';
+import 'package:prueba_desis/views/register/widgets/custom_texfield.dart';
 import 'package:prueba_desis/views/register/widgets/data_table.dart';
 import 'package:prueba_desis/widgets/custom_button.dart';
 import 'package:prueba_desis/validators/form_validators.dart' as validators;
@@ -93,92 +94,30 @@ class RegisterScreenState extends State<RegisterScreen> {
           key: _formKey,
           child: Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-                child: TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre Completo',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                    validator: (value) =>
-                        validators.nameValidator(context, value)),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-                child: TextFormField(
+              CustomTextFormField(
+                  controller: _nameController,
+                  label: "Nombre Completo",
+                  validator: (value) =>
+                      validators.nameValidator(context, value)),
+              CustomTextFormField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Correo Electrónico',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  validator: ((value) =>
+                  label: "Correo Electrónico",
+                  validator: (value) =>
                       validators.emailValidator(value, context)),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-                child: TextFormField(
-                    controller: _addressController,
-                    decoration: const InputDecoration(
-                      labelText: 'Dirección',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                    validator: validators.addressValidator),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-                child: TextFormField(
+              CustomTextFormField(
+                  controller: _addressController,
+                  label: "Dirección",
+                  validator: validators.addressValidator),
+              CustomTextFormField(
                   controller: _dateController,
-                  decoration: const InputDecoration(
-                    labelText: "Fecha de Nacimiento",
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  readOnly: true,
+                  label: "Fecha de Nacimiento",
                   onTap: _onSelectedDate,
-                  validator: validators.birthdayValidator,
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
-                child: TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Contraseña',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    ),
-                    validator: validators.passwordValidator),
-              ),
+                  readOnly: true,
+                  validator: validators.birthdayValidator),
+              CustomTextFormField(
+                  controller: _passwordController,
+                  label: "Contraseña",
+                  validator: validators.passwordValidator),
               CustomButton(
                   onPress: () {
                     _formKey.currentState!.save();
